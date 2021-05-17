@@ -1,0 +1,12 @@
+<nb-card>
+  <nb-card-header>Login</nb-card-header>
+  <nb-card-body>
+      <form [formGroup]="loginForm" (ngSubmit)="onSubmit()">
+          <label>Username:</label><br />
+          <input nbInput type="text" name="username" formControlName="userName"><br />
+          <label>Password:</label><br />
+          <input nbInput type="password" name="password" formControlName="password"><br /><br />
+          <button nbButton type="submit">Login</button>
+      </form>
+  </nb-card-body>
+</nb-card>

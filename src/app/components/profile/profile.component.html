@@ -1,0 +1,17 @@
+<nb-card>
+  <nb-card-header>
+    Username: {{ userName }}
+  </nb-card-header>
+  <nb-card-body>
+    Followed Manga:
+    <div>
+      <ng-container *ngFor="let manga of followedManga">
+        <ul>
+          <a [routerLink]="[ '/manga', manga.data.id ]">
+            {{ manga.data.attributes.title.en }}
+          </a>
+        </ul>
+      </ng-container>
+    </div>
+  </nb-card-body>
+</nb-card>

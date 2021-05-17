@@ -1,0 +1,16 @@
+<ng-template #dialog>
+    <nb-card>
+      <nb-card-header>Dialog</nb-card-header>
+      <nb-card-body>Hello world!</nb-card-body>
+    </nb-card>
+  </ng-template>
+  
+  <nb-card>
+    <nb-card-body>
+      <!-- <button nbButton (click)="openDialog(dialog)">Open Dialog</button> -->
+      <ng-container *ngFor="let manga of mangaList">
+        <app-manga [manga]="manga"></app-manga>  
+      </ng-container>
+    </nb-card-body>
+  </nb-card>
+  

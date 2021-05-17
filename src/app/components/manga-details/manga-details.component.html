@@ -1,0 +1,10 @@
+<nb-card>
+    <nb-card-body>
+        <div>{{ manga.attributes.title.en }} Chapter List</div>
+        <div *ngFor="let feed of mangaFeed">
+            <div (click)="getChapter(feed.data.id, feed.data.attributes.hash, feed.data.attributes.data)">
+                Chapter {{ feed.data.attributes.chapter }} - {{ feed.data.attributes.translatedLanguage }}
+            </div>
+        </div>
+    </nb-card-body>
+</nb-card>

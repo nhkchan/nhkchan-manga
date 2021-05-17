@@ -1,0 +1,7 @@
+<div>
+    <img [hidden]="loading" (load)="onLoad()" [src]="atHomeURL + '/data/' + chapterHash + '/' + chapterList[pageNumber]">
+    <div *ngIf="loading" class="row justify-content-center">
+        <img src="assets/img/Pulse-1s-200px.gif">
+      </div>
+</div>
+<button (click)="nextPage()" nbButton status="primary">Next</button>
