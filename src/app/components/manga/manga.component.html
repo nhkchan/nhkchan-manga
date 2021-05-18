@@ -1,10 +1,17 @@
-<nb-card>
-    <nb-card-header>
-        {{ manga?.data?.attributes?.title?.en }}
-    </nb-card-header>
-    <nb-card-body>
-        <div>
-            {{ manga?.data?.attributes?.description?.en }}
-        </div>
-    </nb-card-body>
-</nb-card>
+<div class="row pt-2 pb-2">
+  <div class="col-2 pointer" [routerLink]="[ '/manga', manga.data.id ]">
+    {{ manga.data.attributes.title.en }}
+  </div>
+  <div class="col-4">
+    {{ manga?.data?.attributes?.description?.en.substring(0,300) }}
+  </div>
+  <div class="col-2">
+    {{ manga?.data?.attributes?.status }}
+  </div>
+  <div class="col-2">
+    {{ manga?.data?.attributes?.createdAt }}
+  </div>
+  <div class="col-2">
+    {{ manga?.data?.attributes?.updatedAt }}
+  </div>
+</div>

@@ -11,7 +11,8 @@ import { CookieService } from 'ngx-cookie-service';
 import { TokenService } from './services/token.service';
 import { LoginService } from './services/login.service';
 import { RouterModule } from '@angular/router';
-import { ChapterListComponent } from './components/chapter-list/chapter-list.component';
+import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
+
 
 @NgModule({
   declarations: [
@@ -30,6 +31,7 @@ import { ChapterListComponent } from './components/chapter-list/chapter-list.com
     NbButtonModule,
     NbMenuModule.forRoot(),
     NbContextMenuModule,
+    BrowserAnimationsModule,
   ],
   providers: [
     CookieService,

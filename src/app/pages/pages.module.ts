@@ -15,6 +15,9 @@ import { MangaDetailsComponent } from '../components/manga-details/manga-details
 import { ChapterComponent } from '../components/chapter/chapter.component';
 import { RouterModule } from '@angular/router';
 import { ChapterListComponent } from '../components/chapter-list/chapter-list.component';
+import { MatPaginatorModule } from '@angular/material';
+import { SpinnerComponent } from '../components/spinner/spinner.component';
+
 
 @NgModule({
   declarations: [
@@ -25,6 +28,7 @@ import { ChapterListComponent } from '../components/chapter-list/chapter-list.co
     MangaDetailsComponent,
     ChapterComponent,
     ChapterListComponent,
+    SpinnerComponent
   ],
   imports: [
     CommonModule,
@@ -34,12 +38,16 @@ import { ChapterListComponent } from '../components/chapter-list/chapter-list.co
     NbButtonModule,
     NbDialogModule.forRoot(),
     PagesRoutingModule,
-    ReactiveFormsModule
+    ReactiveFormsModule,
+    MatPaginatorModule
   ],
   providers: [
     TokenService,
     LoginService,
     CookieService
+  ],
+  exports: [
+    SpinnerComponent
   ]
 })
 export class PagesModule { }

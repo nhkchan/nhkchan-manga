@@ -20,7 +20,7 @@ export class MangaDetailsComponent implements OnInit {
     console.log(this._router.url);
 
     this._route.params.subscribe(params => {
-      this._manga.getManga(new Array(params.mangaId), null).subscribe(manga => {
+      this._manga.getManga(new Array(params.mangaId), null, null, null, null).subscribe(manga => {
         if (manga && manga.results.length > 0) {
           this.manga = manga.results[0].data;
         }

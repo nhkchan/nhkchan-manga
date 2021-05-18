@@ -3,7 +3,7 @@ import { CookieService } from 'ngx-cookie-service';
 import { TokenService } from './services/token.service';
 import { LoginService } from './services/login.service';
 import { NbMenuService, NbMenuItem } from '@nebular/theme';
-import { Router, NavigationEnd } from '@angular/router';
+import { Router, NavigationEnd, NavigationStart } from '@angular/router';
 import { switchMap, map } from 'rxjs/operators';
 import { of } from 'rxjs';
 
@@ -15,6 +15,7 @@ import { of } from 'rxjs';
 export class AppComponent {
   title = 'nhkchan-manga';
 
+  isLoaded: boolean = false;
   loggedIn: boolean = false;
   sessionToken: string = '';
   refreshToken: string = '';
@@ -38,7 +39,18 @@ export class AppComponent {
 
   ngOnInit(): void {
     this._router.events.subscribe((events) => {
+
+      if(event instanceof NavigationStart)
+      {
+        console.log("navigation starts");
+        this.isLoaded=true;
+      }
+
       if (events instanceof NavigationEnd) {
+
+        console.log("navigation ends");
+        this.isLoaded=false;
+
         console.log(events);
         this.sessionToken = '';
         this.refreshToken = '';

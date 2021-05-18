@@ -42,7 +42,7 @@ export class MangaService {
     this._mangaChapterHash.next(value);
   }
 
-  getManga(ids: Array<string>, title: string): Observable<any> {
+  getManga(ids: Array<string>, title: string, limit: string, offset: string, total: string): Observable<any> {
     let params: HttpParams = new HttpParams();
     if (ids && ids.length > 0) {
       for (let i = 0; i < ids.length; i++) {
@@ -62,6 +62,18 @@ export class MangaService {
       } else {
         params = params.set('title', title);
       }
+    }
+
+    if (limit) {
+      params = params.append('limit', limit);
+    }
+
+    if (offset) {
+      params = params.append('offset', offset);
+    }
+
+    if (total) {
+      params = params.append('total', total);
     }
 
     console.log(params);

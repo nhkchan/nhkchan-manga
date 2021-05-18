@@ -1,16 +1,54 @@
-<ng-template #dialog>
-    <nb-card>
-      <nb-card-header>Dialog</nb-card-header>
-      <nb-card-body>Hello world!</nb-card-body>
-    </nb-card>
-  </ng-template>
-  
-  <nb-card>
+      <nb-card>
+  <nb-card-header>
+    Search
+  </nb-card-header>
+  <nb-card-body>
+    <form [formGroup]="searchForm" (ngSubmit)="onSearch()">
+      <div class="row">
+        <input nbInput type="text" formControlName="mangaTitle" />
+      </div>
+      <div class="row pt-1 pb-1">
+        <div style="height: 1px;"></div>
+      </div>
+      <div class="row">
+        <button type="submit" nbButton>Search</button>
+      </div>
+    </form>
+  </nb-card-body>
+</nb-card>
+<nb-card>
     <nb-card-body>
-      <!-- <button nbButton (click)="openDialog(dialog)">Open Dialog</button> -->
+      <div class="row">
+        <div class="col-2 pb-3" >
+          <h5>Title</h5>
+        </div>
+        <div class="col-4 pb-3">
+          <h5>Description</h5>
+        </div>
+        <div class="col-2 pb-3">
+          <h5>Status</h5>
+        </div>
+        <div class="col-2 pb-3">
+          <h5>Created</h5>
+        </div>
+        <div class="col-2 pb-3">
+          <h5>Update</h5>
+        </div>
+    </div>
+    <div class="row"></div>
       <ng-container *ngFor="let manga of mangaList">
         <app-manga [manga]="manga"></app-manga>  
       </ng-container>
     </nb-card-body>
+    <div class="row">
+      <div class="col-9">
+
+      </div>
+      <div class="col-3">
+        <mat-paginator [length]="listLength" [pageSize]="10" [pageSizeOptions]="[10, 50, 100]" (page)="onPageChange($event)">
+        </mat-paginator>
+      </div>
+    </div>
   </nb-card>
   
+  <app-spinner [httploading]="!hideHttpSpinner" [loading]="!hideLoadingSpinner" ></app-spinner>
