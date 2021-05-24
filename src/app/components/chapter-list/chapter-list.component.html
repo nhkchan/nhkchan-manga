@@ -1,1 +1,13 @@
-<p>chapter-list works!</p>
+<div class="row pt-1 pb-1">
+    <div class="col-2">
+        <div class="pointer" (click)="getChapter(feed.data.id, feed.data.attributes.hash, feed.data.attributes.data)">
+            # {{ feed.data.attributes.chapter }}
+        </div>
+    </div>
+    <div class="col-2">
+        {{ feed.data.attributes.translatedLanguage }}
+    </div>
+    <div class="col-4">
+        {{ published }}
+    </div>
+</div>

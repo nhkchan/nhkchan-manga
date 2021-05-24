@@ -1,3 +1,9 @@
 .pointer {
     cursor: pointer;
 }
+
+nb-card {
+    height: 100%;
+    width: 100%;
+    padding: 5;
+}

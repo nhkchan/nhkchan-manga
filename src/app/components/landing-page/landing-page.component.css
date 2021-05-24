@@ -10,3 +10,23 @@
 .pointer {
     cursor: pointer;
 }
+
+::ng-deep .mat-paginator-page-size{
+    display: none !important;
+}
+
+.custom-card-row {
+    width: 100%;
+    display: flex;
+    flex-direction: row;
+    flex-wrap: wrap;
+}
+
+app-manga {
+    width: 350px;
+    max-width: 350px;
+    height: 400px;
+    max-height: 400px;
+    padding: 15px;
+    overflow: hidden;
+}

@@ -12,6 +12,8 @@ import { TokenService } from './services/token.service';
 import { LoginService } from './services/login.service';
 import { RouterModule } from '@angular/router';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
+import { NbEvaIconsModule } from '@nebular/eva-icons';
+
 
 
 @NgModule({
@@ -29,6 +31,7 @@ import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
     NbLayoutModule,
     NbActionsModule,
     NbButtonModule,
+    NbEvaIconsModule,
     NbMenuModule.forRoot(),
     NbContextMenuModule,
     BrowserAnimationsModule,

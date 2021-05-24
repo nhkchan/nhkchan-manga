@@ -3,15 +3,85 @@
     Username: {{ userName }}
   </nb-card-header>
   <nb-card-body>
-    Followed Manga:
-    <div>
-      <ng-container *ngFor="let manga of followedManga">
-        <ul>
-          <a [routerLink]="[ '/manga', manga.data.id ]">
-            {{ manga.data.attributes.title.en }}
-          </a>
-        </ul>
-      </ng-container>
-    </div>
+    <nb-card>
+      <nb-card-header>
+        Followed Manga
+      </nb-card-header>
+      <nb-card-body>
+        <div class="row">
+          <div class="col">
+            <!-- <ng-container *ngFor="let manga of followedManga">
+              <div class="row pt-2 pb-2">
+                <div class="col">
+                  <div class="pointer" [routerLink]="[ '/manga', manga.data.id ]">
+                    {{ manga.data.attributes.title.en }}
+                  </div>
+                </div>
+                <div class="col">
+                  {{ manga.data.attributes.status }}
+                </div>
+                <div class="col">
+                  {{ manga.data.attributes.updatedAt }}
+                </div>
+              </div>
+            </ng-container> -->
+            <div class="custom-card-row">
+              <ng-container *ngFor="let manga of followedManga">
+                <app-manga [manga]="manga"></app-manga>  
+            </ng-container>
+          </div>
+          </div>
+        </div>
+        <div class="row">
+          <div class="col-9">
+    
+          </div>
+          <div class="col-3">
+            <mat-paginator [length]="listLength" [hidePageSize]="true" [pageSize]="10" [showFirstLastButtons]="true" (page)="onPageChange($event)">
+            </mat-paginator>
+          </div>
+        </div>
+      </nb-card-body>
+    </nb-card>
+    <nb-card>
+      <nb-card-header>
+        Custom Lists
+      </nb-card-header>
+      <nb-card-body>
+        <div class="row">
+          <div class="col">
+            <div *ngIf="!customList || customListLength < 1">
+              No Followed custom lists.
+            </div>
+            <ng-container *ngFor="let list of customList">
+              <div class="row pt-2 pb-2">
+                <div class="col">
+                  <div class="pointer">
+                    {{ list.data.attributes.name }}
+                  </div>
+                </div>
+                <div class="col">
+                  {{ list.data.attributes.visibility }}
+                </div>
+                <div class="col">
+                  {{ list.data.attributes.owner.attributes.username }}
+                </div>
+              </div>
+            </ng-container>
+          </div>
+        </div>
+        <div class="row">
+          <div class="col-9">
+    
+          </div>
+          <div class="col-3">
+            <mat-paginator [length]="customListLength" [hidePageSize]="true" [pageSize]="10" [showFirstLastButtons]="true" (page)="onCustomListPageChange($event)">
+            </mat-paginator>
+          </div>
+        </div>
+      </nb-card-body>
+    </nb-card>
   </nb-card-body>
 </nb-card>
+
+<app-spinner [httploading]="!hideHttpSpinner" [loading]="!hideLoadingSpinner" ></app-spinner>

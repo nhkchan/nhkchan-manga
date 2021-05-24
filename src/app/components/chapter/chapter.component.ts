@@ -31,6 +31,11 @@ export class ChapterComponent implements OnInit {
     this.pageNumber++;
     this.scroll.scrollToPosition([0,0]);
   }
+  prevPage(): void {
+    this.loading = true;
+    this.pageNumber--;
+    this.scroll.scrollToPosition([0,0]);
+  }
 
   onLoad() {
     this.loading = false;

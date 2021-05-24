@@ -1,6 +1,6 @@
 import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
-import { NbButtonModule, NbCardModule, NbDialogModule, NbInputModule } from '@nebular/theme';
+import { NbButtonModule, NbCardModule, NbDialogModule, NbInputModule, NbIconModule } from '@nebular/theme';
 
 import { PagesRoutingModule } from './pages-routing.module';
 import { LandingPageComponent } from '../components/landing-page/landing-page.component';
@@ -36,6 +36,7 @@ import { SpinnerComponent } from '../components/spinner/spinner.component';
     NbCardModule,
     NbInputModule,
     NbButtonModule,
+    NbIconModule,
     NbDialogModule.forRoot(),
     PagesRoutingModule,
     ReactiveFormsModule,

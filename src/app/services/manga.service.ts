@@ -1,7 +1,8 @@
 import { Injectable } from '@angular/core';
 import { HttpClient, HttpParams } from '@angular/common/http';
 import { environment } from 'src/environments/environment';
-import { Observable, BehaviorSubject } from 'rxjs';
+import { Observable, BehaviorSubject, of } from 'rxjs';
+import { mergeMap } from 'rxjs/operators';
 
 @Injectable({
   providedIn: 'root',
@@ -84,7 +85,7 @@ export class MangaService {
   getMangaFeed(id: string): Observable<any> {
     let params: HttpParams = new HttpParams();
     params = params.set('order[chapter]', 'desc');
-    params = params.append('locales[0]', 'en');
+    params = params.append('translatedLanguage[0]', 'en');
     return this._http.get(environment.mangadexBaseUrl + `/manga/${id}/feed`, {
       params,
     });
@@ -113,4 +114,44 @@ export class MangaService {
     return this._http.get(environment.mangadexBaseUrl + `/at-home/server/${chapterId}`);
   }
 
+  getMangaCoverArt(mangaIds: Array<any>): Observable<any> {
+    if (mangaIds) {
+      console.log(mangaIds);
+      let params: HttpParams = new HttpParams();
+      for (let i = 0; i < mangaIds.length; i++) {
+        if (i == 0) {
+          params = params.set('manga[' + i + ']', mangaIds[i].data.id);
+        } else {
+          params = params.append('manga[' + i + ']', mangaIds[i].data.id);
+        }
+      }
+      return this._http.get(environment.mangadexBaseUrl + '/cover', { params });
+    } else {
+      return of(null);
+    }
+  }
+
+  getMangaCovertArtById(ids: Array<string>): Observable<any> {
+    if (ids) {
+      let params: HttpParams = new HttpParams();
+      for (let i = 0; i < ids.length; i++) {
+        if (i == 0) {
+          params = params.set('ids[' + i + ']', ids[i]);
+        } else {
+          params = params.append('ids[' + i + ']', ids[i]);
+        }
+      }
+      return this._http.get(environment.mangadexBaseUrl + '/cover', { headers: { 'User-Agent': 'Googlebot' }, params });
+    } else {
+      return of(null);
+    }
+  }
+
+  getMangaCoverImage(url: string): Observable<any> {
+    return this._http.get(url, {
+      headers: {
+        'User-Agent': 'Googlebot'
+      }
+    });
+  }
 }

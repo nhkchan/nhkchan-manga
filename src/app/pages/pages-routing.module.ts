@@ -3,7 +3,6 @@ import { Routes, RouterModule } from '@angular/router';
 import { LandingPageComponent } from '../components/landing-page/landing-page.component';
 import { LoginComponent } from '../components/login/login.component';
 import { ProfileComponent } from '../components/profile/profile.component';
-import { MangaComponent } from '../components/manga/manga.component';
 import { MangaDetailsComponent } from '../components/manga-details/manga-details.component';
 import { ChapterComponent } from '../components/chapter/chapter.component';
 

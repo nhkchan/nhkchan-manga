@@ -3,7 +3,7 @@ import { NbDialogService } from '@nebular/theme';
 import { MangaService } from 'src/app/services/manga.service';
 import { FormGroup, FormControl, Validators } from '@angular/forms';
 import { ViewportScroller } from '@angular/common';
-
+import { THIS_EXPR } from '@angular/compiler/src/output/output_ast';
 @Component({
   selector: 'app-landing-page',
   templateUrl: './landing-page.component.html',
@@ -12,6 +12,7 @@ import { ViewportScroller } from '@angular/common';
 export class LandingPageComponent implements OnInit {
 
   mangaList: Array<any> = null;
+  mangaListWCovers: Array<any> = null;
   searchForm = new FormGroup({
     mangaTitle: new FormControl('', [Validators.required])
   });
@@ -25,12 +26,47 @@ export class LandingPageComponent implements OnInit {
 
   ngOnInit(): void {
     this.hideLoadingSpinner = true;
+    this.mangaListWCovers = new Array<string>();
     this._manga.getManga(null, null, null, null, null).subscribe(resp => {
+
       if (resp && resp.results) {
+
+        //  map new array for results.
         this.mangaList = [...resp.results];
+        console.log(this.mangaList);
         this.listLength = resp.total;
-        this.hideHttpSpinner = true;
-      }
+
+
+        //  Get Manga Covert Art by ID
+
+        let coverArtIds = new Array<string>();
+
+        this.mangaList.forEach(manga => {
+          
+          let mangaRelationship = manga.relationships;
+          coverArtIds.push(mangaRelationship[mangaRelationship.findIndex( r => r.type == 'cover_art' )].id);
+
+        });
+
+        this._manga.getMangaCovertArtById(coverArtIds).subscribe(covers =>{
+          let coversList = [...covers.results];
+          console.log(covers);
+          this.mangaList.map(result => {
+            if (result) {
+              let coverArtId = result.relationships[result.relationships.findIndex( r => r.type == 'cover_art')].id;
+              let coverItem = coversList.find(cover => {
+                return cover.data.id === coverArtId
+              });
+              result.data.attributes.coverArt = coverItem;
+              console.log(result.data.attributes);  
+            }
+          })
+        });
+
+      } //  end if of mang response.
+
+      this.hideHttpSpinner = true;
+
     })
   }
 

@@ -1,6 +1,6 @@
 import { Injectable } from '@angular/core';
 import { Observable, BehaviorSubject } from 'rxjs';
-import { HttpClient, HttpHeaders } from '@angular/common/http';
+import { HttpClient, HttpHeaders, HttpParams } from '@angular/common/http';
 import { environment } from 'src/environments/environment';
 
 @Injectable({
@@ -82,12 +82,46 @@ export class LoginService {
     });
   }
 
-  getUserFollowedManga(token: string): Observable<any> {
+  getUserFollowedManga(token: string, limit: string, offset: string): Observable<any> {
+
+    let params: HttpParams = new HttpParams();
+
+    if (limit) {
+      params = params.append('limit', limit);
+    }
+
+    if (offset) {
+      params = params.append('offset', offset);
+    }
+
     return this._http.get(environment.mangadexBaseUrl + `/user/follows/manga`, {
       headers: {
         Authorization: 'Bearer ' + token,
       },
+      params
     });
+  }
+
+  getUserCustomLists(token: string, limit: string, offset: string): Observable<any> {
+
+    let params: HttpParams = new HttpParams();
+
+    if (limit) {
+      params = params.append('limit', limit);
+    }
+
+    if (offset) {
+      params = params.append('offset', offset);
+    }
+
+    return this._http.get(environment.mangadexBaseUrl + '/user/list', 
+    {
+      headers: {
+        Authorization: 'Bearer ' + token,
+      },
+      params
+    })
+
   }
 
 }

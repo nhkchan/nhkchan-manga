@@ -1,10 +1,27 @@
 <nb-card>
-    <nb-card-body>
+    <nb-card-header>
         <div>{{ manga.attributes.title.en }} Chapter List</div>
-        <div *ngFor="let feed of mangaFeed">
-            <div (click)="getChapter(feed.data.id, feed.data.attributes.hash, feed.data.attributes.data)">
-                Chapter {{ feed.data.attributes.chapter }} - {{ feed.data.attributes.translatedLanguage }}
+    </nb-card-header>
+    <nb-card-body>
+        <div class="row pb-2">
+            <div class="col-2">
+                <h5>
+                    Chapter #
+                </h5>
             </div>
+            <div class="col-2">
+                <h5>
+                    Translated Language
+                </h5>
+            </div>
+            <div class="col-4">
+                <h5>
+                    Published
+                </h5>
+            </div>
+        </div>
+        <div *ngFor="let feed of mangaFeed">
+            <app-chapter-list [feed]="feed"></app-chapter-list>
         </div>
     </nb-card-body>
 </nb-card>
