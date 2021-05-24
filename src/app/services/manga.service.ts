@@ -17,6 +17,12 @@ export class MangaService {
   private readonly _mangaChapterHash = new BehaviorSubject<string>(null);
   readonly mangaChapterHash$ = this._mangaChapterHash.asObservable();
 
+  private readonly _mangaList = new BehaviorSubject<Array<any>>(null);
+  readonly mangaList$ = this._mangaList.asObservable();
+
+  private readonly _coverList = new BehaviorSubject<Array<string>>(null);
+  readonly coverList$ = this._coverList.asObservable();
+
   constructor(private _http: HttpClient) {}
 
   getMdAtHomeBaseURL(): string {
@@ -41,6 +47,22 @@ export class MangaService {
 
   setMangaChapterHash(value: string): void {
     this._mangaChapterHash.next(value);
+  }
+
+  getMangaList(): Array<any> {
+    return this._mangaList.getValue();
+  }
+
+  setMangaList(value: Array<any>): void {
+    this._mangaList.next(value);
+  }
+
+  getCoverList(): Array<string> {
+    return this._coverList.getValue();
+  }
+
+  setCoverList(value: Array<string>): void {
+    this._coverList.next(value);
   }
 
   getManga(ids: Array<string>, title: string, limit: string, offset: string, total: string): Observable<any> {

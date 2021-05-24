@@ -24,9 +24,9 @@
               "src/assets"
             ],
             "styles": [
-              "src/custom-theme.scss",
-              "src/styles.css",
-              "node_modules/@nebular/theme/styles/prebuilt/dark.css"
+              "src/themes.scss",
+              "src/styles.scss",
+              "src/styles.css"
             ],
             "scripts": []
           },
