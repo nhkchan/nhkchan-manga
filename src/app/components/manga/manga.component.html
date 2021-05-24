@@ -1,46 +1,24 @@
-<!-- <div class="row pt-2 pb-2">
-  <div class="col-2">
-    <img *ngIf="loadingImg && !loadImageFailed" src="assets/img/Pulse-1s-58px.gif" alt="" width="128px" height="128px" />
-    <nb-icon *ngIf="loadImageFailed" icon="image-outline"></nb-icon>
-    <img *ngIf="!loadImageFailed" (load)="loadedImage()" (error)="onImgError($event)" [src]="coverImg" />
-  </div>
-  <div class="col-2 pointer" [routerLink]="[ '/manga', manga.data.id ]">
-    {{ manga?.data?.attributes?.title?.en }}
-  </div>
-  <div class="col-2">
-    {{ manga?.data?.attributes?.description?.en.substring(0,300) }}
-  </div>
-  <div class="col-2">
-    {{ manga?.data?.attributes?.status }}
-  </div>
-  <div class="col-2">
-    {{ manga?.data?.attributes?.createdAt }}
-  </div>
-  <div class="col-2">
-    {{ manga?.data?.attributes?.updatedAt }}
-  </div>
-</div> -->
-  <nb-card>
-    <nb-card-body>
-      <div class="pointer" [routerLink]="[ '/manga', manga.data.id ]">
-        <div class="row">
-          <div class="col">
-            <img *ngIf="loadingImg && !loadImageFailed" src="assets/img/Pulse-1s-58px.gif" alt="" width="128px"
-              height="128px" />
-            <img *ngIf="loadImageFailed" src="assets/img/not-found.jpg" width="100%" height="200px" />
-            <img *ngIf="!loadImageFailed" (load)="loadedImage()" (error)="onImgError($event)" [src]="coverImg" />
-          </div>
-        </div>
-        <div class="row">
-          <div class="col">
-            {{ manga?.data?.attributes?.title?.en }}
-          </div>
+<nb-card>
+  <nb-card-body>
+    <div class="pointer" [routerLink]="[ '/manga', manga.data.id ]">
+      <div class="row">
+        <div class="col">
+          <img *ngIf="loadingImg && !loadImageFailed" src="assets/img/Pulse-1s-58px.gif" alt="" width="128px"
+            height="128px" />
+          <img *ngIf="loadImageFailed" src="assets/img/not-found.jpg" width="100%" height="200px" />
+          <img *ngIf="!loadImageFailed" (load)="loadedImage()" (error)="onImgError($event)" [src]="coverImg" width="100%" height="300px" />
         </div>
       </div>
       <div class="row">
         <div class="col">
-          {{ lastUpdated }}
+          {{ manga?.data?.attributes?.title?.en }}
         </div>
       </div>
-    </nb-card-body>
-  </nb-card>
+    </div>
+    <div class="row">
+      <div class="col">
+        {{ lastUpdated }}
+      </div>
+    </div>
+  </nb-card-body>
+</nb-card>
