@@ -17,6 +17,7 @@ import { RouterModule } from '@angular/router';
 import { ChapterListComponent } from '../components/chapter-list/chapter-list.component';
 import { MatPaginatorModule } from '@angular/material';
 import { SpinnerComponent } from '../components/spinner/spinner.component';
+import { ChapterListDetailsComponent } from '../components/chapter-list-details/chapter-list-details.component';
 
 
 @NgModule({
@@ -28,6 +29,7 @@ import { SpinnerComponent } from '../components/spinner/spinner.component';
     MangaDetailsComponent,
     ChapterComponent,
     ChapterListComponent,
+    ChapterListDetailsComponent,
     SpinnerComponent
   ],
   imports: [

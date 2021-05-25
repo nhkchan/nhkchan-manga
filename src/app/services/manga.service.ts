@@ -20,13 +20,19 @@ export class MangaService {
   private readonly _mangaList = new BehaviorSubject<Array<any>>(null);
   readonly mangaList$ = this._mangaList.asObservable();
 
-  private readonly _coverList = new BehaviorSubject<Array<string>>(null);
+  private readonly _coverList = new BehaviorSubject<Array<any>>(null);
   readonly coverList$ = this._coverList.asObservable();
+
+  private readonly _manga = new BehaviorSubject<any>(null);
+  readonly manga$ = this._manga.asObservable();
+
+  private readonly _cover = new BehaviorSubject<any>(null);
+  readonly cover$ = this._cover.asObservable();
 
   constructor(private _http: HttpClient) {}
 
   getMdAtHomeBaseURL(): string {
-    return this._mdAtHomeBaseUrl.getValue();
+    return this._mdAtHomeBaseUrl.value;
   }
 
   setMdAtHomeBaseURL(value: string): void {
@@ -34,7 +40,7 @@ export class MangaService {
   }
 
   getMangaChapterList(): Array<string> {
-    return this._mangaChapterList.getValue();
+    return this._mangaChapterList.value;
   }
 
   setMangaChapterList(value: Array<string>): void {
@@ -42,7 +48,7 @@ export class MangaService {
   }
 
   getMangaChapterHash(): string {
-    return this._mangaChapterHash.getValue();
+    return this._mangaChapterHash.value;
   }
 
   setMangaChapterHash(value: string): void {
@@ -50,19 +56,35 @@ export class MangaService {
   }
 
   getMangaList(): Array<any> {
-    return this._mangaList.getValue();
+    return this._mangaList.value;
   }
 
   setMangaList(value: Array<any>): void {
     this._mangaList.next(value);
   }
 
-  getCoverList(): Array<string> {
-    return this._coverList.getValue();
+  getCoverList(): Array<any> {
+    return this._coverList.value;
   }
 
-  setCoverList(value: Array<string>): void {
+  setCoverList(value: Array<any>): void {
     this._coverList.next(value);
+  }
+
+  getCurrentManga(): any {
+    return this._manga.value;
+  }
+
+  setCurrentManga(value: any) {
+    this._manga.next(value);
+  }
+
+  getCurrentCover(): any {
+    return this._cover.value;
+  }
+
+  setCurrentCover(value: any) {
+    this._cover.next(value);
   }
 
   getManga(ids: Array<string>, title: string, limit: string, offset: string, total: string): Observable<any> {
@@ -98,8 +120,6 @@ export class MangaService {
     if (total) {
       params = params.append('total', total);
     }
-
-    console.log(params);
 
     return this._http.get(environment.mangadexBaseUrl + '/manga', { params });
   }
@@ -163,17 +183,13 @@ export class MangaService {
           params = params.append('ids[' + i + ']', ids[i]);
         }
       }
-      return this._http.get(environment.mangadexBaseUrl + '/cover', { headers: { 'User-Agent': 'Googlebot' }, params });
+      return this._http.get(environment.mangadexBaseUrl + '/cover', { params });
     } else {
       return of(null);
     }
   }
 
   getMangaCoverImage(url: string): Observable<any> {
-    return this._http.get(url, {
-      headers: {
-        'User-Agent': 'Googlebot'
-      }
-    });
+    return this._http.get(url);
   }
 }

@@ -10,21 +10,6 @@
       <nb-card-body>
         <div class="row">
           <div class="col">
-            <!-- <ng-container *ngFor="let manga of followedManga">
-              <div class="row pt-2 pb-2">
-                <div class="col">
-                  <div class="pointer" [routerLink]="[ '/manga', manga.data.id ]">
-                    {{ manga.data.attributes.title.en }}
-                  </div>
-                </div>
-                <div class="col">
-                  {{ manga.data.attributes.status }}
-                </div>
-                <div class="col">
-                  {{ manga.data.attributes.updatedAt }}
-                </div>
-              </div>
-            </ng-container> -->
             <div class="custom-card-row">
               <ng-container *ngFor="let manga of followedManga">
                 <app-manga [mangaId]="manga"></app-manga>  

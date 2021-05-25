@@ -2,6 +2,7 @@ import { Component, OnInit, Input, SimpleChanges } from '@angular/core';
 import { MangaService } from 'src/app/services/manga.service';
 import * as moment from 'moment/moment';
 import { BehaviorSubject } from 'rxjs';
+import { UtilService } from 'src/app/services/util.service';
 @Component({
   selector: 'app-manga',
   templateUrl: './manga.component.html',
@@ -11,7 +12,7 @@ export class MangaComponent implements OnInit {
 
   loadingImg: boolean = false;
   coverImg: string = null;
-  loadImageFailed: boolean = true;
+  loadImageFailed: boolean = false;
   lastUpdated: string = '';
 
   private _manga = new BehaviorSubject<any>(null);
@@ -25,33 +26,39 @@ export class MangaComponent implements OnInit {
      return this._manga.getValue();
   }
 
-  constructor(private _mangaSvc: MangaService) { }
+  constructor(private _mangaSvc: MangaService, private _util: UtilService) { }
 
   ngOnInit() {
     this._manga.subscribe(manga => {
-      console.log(manga);
 
       this.manga = this._mangaSvc.getMangaList().find(m => {
         return m.data.id === manga;
       });
-      console.log(this.manga);
 
-      // console.log(manga);
-      // if (manga && manga.data.attributes.coverArt) {
-      //   this.loadingImg = true;
-      //   console.log(manga.data.attributes.coverArt);
-      //   this.coverImg = `https://uploads.mangadex.org/covers/${manga.data.id}/${manga.data.attributes.coverArt.data.attributes.fileName}.256.jpg`;
-      //   let updatedAt = new Date(manga.data.attributes.updatedAt);
-      //   let now = moment();
-      //   this.lastUpdated = this.timeDifference(now.diff(updatedAt));
-      //   this.loadImageFailed = false;
-      // }
+      this._mangaSvc.setCurrentManga(this.manga);
+
+      this._mangaSvc.coverList$.subscribe(coverList => {
+        if (coverList) {
+          let cover = coverList.find(coverListData => {
+            return coverListData.relationships.some(relationship => {
+              return relationship.id === manga;
+            })
+          });
+          if (cover) {
+            this._mangaSvc.setCurrentCover(cover);
+            this.loadingImg = true;
+            this.coverImg = `https://uploads.mangadex.org/covers/${manga}/${cover.data.attributes.fileName}.256.jpg`;
+            this.loadImageFailed = false;
+            let updatedAt = new Date(this.manga.data.attributes.updatedAt);
+            let now = moment();
+            this.lastUpdated = this._util.timeDifference(now.diff(updatedAt));
+          } else {
+            this.loadImageFailed = true;
+            this.loadingImg = false;
+          }
+        }
+      });
     });
-  }
-
-  ngOnChanges(changes: SimpleChanges): void {
-    //Called before any other lifecycle hook. Use it to inject dependencies, but avoid any serious work here.
-    //Add '${implements OnChanges}' to the class.
   }
 
   loadedImage() {
@@ -64,39 +71,7 @@ export class MangaComponent implements OnInit {
     console.log(event);
     this.loadingImg = false;
     this.loadImageFailed = true;
+    this.coverImg = 'assets/img/not-found.jpg';
   }
-
-  timeDifference(elapsed) {
-
-    var msPerMinute = 60 * 1000;
-    var msPerHour = msPerMinute * 60;
-    var msPerDay = msPerHour * 24;
-    var msPerMonth = msPerDay * 30;
-    var msPerYear = msPerDay * 365;
-
-    if (elapsed < msPerMinute) {
-         return Math.round(elapsed/1000) + ' second(s) ago';   
-    }
-
-    else if (elapsed < msPerHour) {
-         return Math.round(elapsed/msPerMinute) + ' minute(s) ago';   
-    }
-
-    else if (elapsed < msPerDay ) {
-         return Math.round(elapsed/msPerHour ) + ' hour(s) ago';   
-    }
-
-    else if (elapsed < msPerMonth) {
-        return 'approximately ' + Math.round(elapsed/msPerDay) + ' day(s) ago';   
-    }
-
-    else if (elapsed < msPerYear) {
-        return 'approximately ' + Math.round(elapsed/msPerMonth) + ' month(s) ago';   
-    }
-
-    else {
-        return 'approximately ' + Math.round(elapsed/msPerYear ) + ' year(s) ago';   
-    }
-}
 
 }

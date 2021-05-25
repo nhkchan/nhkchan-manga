@@ -1,5 +1,5 @@
 <div>
-    <img [hidden]="loading" (load)="onLoad()" [src]="atHomeURL + '/data/' + chapterHash + '/' + chapterList[pageNumber]">
+    <img [hidden]="loading" (load)="onLoad()" [src]="chapter" height="100%" width="auto">
     <div *ngIf="loading" class="row justify-content-center">
         <img src="assets/img/Pulse-1s-200px.gif">
       </div>

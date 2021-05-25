@@ -42,24 +42,18 @@ export class AppComponent {
 
       if(event instanceof NavigationStart)
       {
-        console.log("navigation starts");
         this.isLoaded=true;
       }
 
       if (events instanceof NavigationEnd) {
 
-        console.log("navigation ends");
         this.isLoaded=false;
-
-        console.log(events);
         this.sessionToken = '';
         this.refreshToken = '';
 
         if (this._token.getToken()) {
-          console.log(this._token.getToken());
           this.sessionToken = this._token.getToken();
         } else {
-          console.log(this._cookie.get('s'));
           this.sessionToken = this._cookie.get('s');
         }
 
@@ -102,7 +96,5 @@ export class AppComponent {
         }
       }
     });
-
-    console.log(this.loggedIn);
   }
 }

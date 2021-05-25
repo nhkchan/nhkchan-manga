@@ -4,6 +4,7 @@ import { TokenService } from 'src/app/services/token.service';
 import { CookieService } from 'ngx-cookie-service';
 import { Router } from '@angular/router';
 import { ViewportScroller } from '@angular/common';
+import { MangaService } from 'src/app/services/manga.service';
 
 @Component({
   selector: 'app-profile',
@@ -23,7 +24,7 @@ export class ProfileComponent implements OnInit {
   listLength: number;
   customListLength: number;
 
-  constructor(private _login: LoginService, private _token: TokenService, private _cookie: CookieService, private _router: Router, private scroll: ViewportScroller) { }
+  constructor(private _manga: MangaService, private _login: LoginService, private _token: TokenService, private _cookie: CookieService, private _router: Router, private scroll: ViewportScroller) { }
 
   ngOnInit() {
 
@@ -47,8 +48,25 @@ export class ProfileComponent implements OnInit {
     });
 
     this._login.getUserFollowedManga(this._token.getToken(), null, null).subscribe(resp => {
-      if (resp) {
-        this.followedManga = [...resp.results];
+      if (resp && resp.results) {
+
+        //  map new array for results.
+        this._manga.setMangaList([...resp.results]);
+        this.followedManga = new Array<string>();
+        let coverArtIds = new Array<string>();
+        resp.results.forEach(m => {
+          this.followedManga.push(m.data.id);
+          let mangaRelationship = m.relationships;
+          coverArtIds.push(mangaRelationship[mangaRelationship.findIndex( r => r.type == 'cover_art' )].id);
+        })
+        this.listLength = resp.total;
+
+
+        //  Get Manga Covert Art by ID
+        this._manga.getMangaCovertArtById(coverArtIds).subscribe(covers =>{
+          this._manga.setCoverList([...covers.results]);
+        });
+
         this.hideHttpSpinner = true;
         this.listLength = resp.total;
       }
@@ -70,7 +88,23 @@ export class ProfileComponent implements OnInit {
     this._login.getUserFollowedManga(
       this._token.getToken(), event.pageSize.toString(), (event.pageIndex * event.pageSize).toString()).subscribe(resp => {
       if (resp && resp.results) {
-        this.followedManga = [...resp.results];
+
+        this._manga.setMangaList([...resp.results]);
+        this.followedManga = new Array<string>();
+        let coverArtIds = new Array<string>();
+        resp.results.forEach(m => {
+          this.followedManga.push(m.data.id);
+          let mangaRelationship = m.relationships;
+          coverArtIds.push(mangaRelationship[mangaRelationship.findIndex( r => r.type == 'cover_art' )].id);
+        })
+        this.listLength = resp.total;
+
+
+        //  Get Manga Covert Art by ID
+        this._manga.getMangaCovertArtById(coverArtIds).subscribe(covers =>{
+          this._manga.setCoverList([...covers.results]);
+        });
+        
         this.hideHttpSpinner = true;
         this.scroll.scrollToPosition([0,0]);
       }
