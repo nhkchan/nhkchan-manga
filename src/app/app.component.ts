@@ -6,6 +6,7 @@ import { NbMenuService, NbMenuItem } from '@nebular/theme';
 import { Router, NavigationEnd, NavigationStart } from '@angular/router';
 import { switchMap, map } from 'rxjs/operators';
 import { of } from 'rxjs';
+import { UtilService } from './services/util.service';
 
 @Component({
   selector: 'app-root',
@@ -19,6 +20,7 @@ export class AppComponent {
   loggedIn: boolean = false;
   sessionToken: string = '';
   refreshToken: string = '';
+  hideHeader: boolean = false;
 
   items: NbMenuItem[] = [
     {
@@ -34,10 +36,15 @@ export class AppComponent {
     private _cookie: CookieService,
     private _token: TokenService,
     private _login: LoginService,
-    private _router: Router
+    private _router: Router,
+    private _util: UtilService
   ) {}
 
   ngOnInit(): void {
+
+    this._util.hideHeader$.subscribe(hide => {
+      this.hideHeader = hide;
+    })
     this._router.events.subscribe((events) => {
 
       if(event instanceof NavigationStart)

@@ -18,7 +18,14 @@ import { ChapterListComponent } from '../components/chapter-list/chapter-list.co
 import { MatPaginatorModule } from '@angular/material';
 import { SpinnerComponent } from '../components/spinner/spinner.component';
 import { ChapterListDetailsComponent } from '../components/chapter-list-details/chapter-list-details.component';
+import { SwiperModule } from 'ngx-swiper-wrapper';
+import { SWIPER_CONFIG } from 'ngx-swiper-wrapper';
+import { SwiperConfigInterface } from 'ngx-swiper-wrapper';
 
+const DEFAULT_SWIPER_CONFIG: SwiperConfigInterface = {
+  direction: 'horizontal',
+  slidesPerView: 'auto'
+};
 
 @NgModule({
   declarations: [
@@ -30,7 +37,7 @@ import { ChapterListDetailsComponent } from '../components/chapter-list-details/
     ChapterComponent,
     ChapterListComponent,
     ChapterListDetailsComponent,
-    SpinnerComponent
+    SpinnerComponent,
   ],
   imports: [
     CommonModule,
@@ -42,12 +49,17 @@ import { ChapterListDetailsComponent } from '../components/chapter-list-details/
     NbDialogModule.forRoot(),
     PagesRoutingModule,
     ReactiveFormsModule,
-    MatPaginatorModule
-  ],
+    MatPaginatorModule,
+    SwiperModule
+    ],
   providers: [
     TokenService,
     LoginService,
-    CookieService
+    CookieService,
+    {
+      provide: SWIPER_CONFIG,
+      useValue: DEFAULT_SWIPER_CONFIG
+    }
   ],
   exports: [
     SpinnerComponent

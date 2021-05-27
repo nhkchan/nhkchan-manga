@@ -1,6 +1,6 @@
 <app-spinner [loading]="isLoaded"></app-spinner>
 <nb-layout>
-  <nb-layout-header fixed>
+  <nb-layout-header [hidden]="hideHeader" fixed>
     <nb-actions class="left">
       <nb-action routerLink="" class="pointer">Home</nb-action>
       <nb-action *ngIf="loggedIn" class="profile pointer" [nbContextMenu]="items" nbContextMenuPlacement="bottom">Users</nb-action>

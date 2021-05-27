@@ -15,6 +15,10 @@
     display: none !important;
 }
 
+::ng-deep .mat-paginator-range-label{
+    display: none !important;
+}
+
 .custom-card-row {
     width: 100%;
     display: flex;

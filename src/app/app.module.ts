@@ -13,7 +13,7 @@ import { LoginService } from './services/login.service';
 import { RouterModule } from '@angular/router';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { NbEvaIconsModule } from '@nebular/eva-icons';
-
+import { interceptorProviders } from './interceptors/interceptors';
 
 
 @NgModule({
@@ -39,7 +39,8 @@ import { NbEvaIconsModule } from '@nebular/eva-icons';
   providers: [
     CookieService,
     TokenService,
-    LoginService
+    LoginService,
+    interceptorProviders
   ],
   bootstrap: [AppComponent]
 })

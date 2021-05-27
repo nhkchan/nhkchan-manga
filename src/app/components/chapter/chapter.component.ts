@@ -1,8 +1,9 @@
 import { Component, OnInit } from '@angular/core';
 import { MangaService } from 'src/app/services/manga.service';
 import { ViewportScroller } from '@angular/common';
-import { pipe } from 'rxjs';
 import { switchMap } from 'rxjs/operators';
+import { UtilService } from 'src/app/services/util.service';
+import { SwiperOptions } from 'swiper/core';
 
 @Component({
   selector: 'app-chapter',
@@ -16,15 +17,34 @@ export class ChapterComponent implements OnInit {
 
   atHomeURL: string;
   chapterList: Array<string>;
+  chapterListURLs: Array<string>;
+  chapterListURLsReversed: Array<string>;
   chapterHash: string;
   pageNumber: number;
   loading: boolean = false;
   chapter: string = '';
+  loaded = 0;
+  verticalScroll: boolean = false;
+  hideHeaderflag: boolean = false;
 
-  constructor(private _manga: MangaService, private scroll: ViewportScroller) { }
+  public config: SwiperOptions = {
+    a11y: { enabled: true },
+    direction: 'horizontal',
+    slidesPerView: 1,
+    keyboard: true,
+    mousewheel: false,
+    scrollbar: false,
+    navigation: true,
+    pagination: true
+  };
+
+  constructor(private _manga: MangaService, private scroll: ViewportScroller, private _util: UtilService) { }
 
   ngOnInit() {
-
+    this.loading = true;
+    this.chapterListURLs = new Array<any>();
+    this.chapterListURLsReversed = new Array<any>();
+    this.loaded = 0;
     this.pageNumber = 0;
     this._manga.mangaChapterList$.pipe(
       switchMap(mangaChapterList => {
@@ -44,6 +64,11 @@ export class ChapterComponent implements OnInit {
       }
       if (this.chapterList) {
         this.chapter = this.atHomeURL + '/data/' + chapterHash + '/' + this.chapterList[this.pageNumber];
+        this.chapterList.forEach(chapter => {
+          this.chapterListURLs.push(this.atHomeURL + '/data/' + chapterHash + '/' + chapter);
+        });
+        this.chapterListURLsReversed = [...this.chapterListURLs.reverse()];
+        this.pageNumber = this.chapterListURLsReversed.length-1;
       } else {
         this.chapter = 'assets/img/not-found.jpg';
       }
@@ -72,4 +97,16 @@ export class ChapterComponent implements OnInit {
     console.log(event);
   }
 
+  preloaded() {
+    this.loaded++;
+    if(this.chapterListURLs.length == this.loaded){
+      this.loading = false;
+      console.log("All images loaded");
+    }
+  }
+
+  hideHeader(): void {
+    this.hideHeaderflag = !this.hideHeaderflag;
+    this._util.setHideHeader(this.hideHeaderflag);
+  }
 }

@@ -1,7 +1,60 @@
-<div>
-    <img [hidden]="loading" (load)="onLoad()" [src]="chapter" height="100%" width="auto">
-    <div *ngIf="loading" class="row justify-content-center">
+<!-- <div class="row container-fluid pb-5" style="position:fixed;z-index:999;">
+  <div class="col-sm-1">
+    <button nbButton (click)="verticalScroll = !verticalScroll" status="primary">
+      Toggle Vertical
+    </button>
+  </div>
+  <div class="col-1">
+    <button nbButton (click)="hideHeader()" status="primary">Hide Header</button>
+  </div>
+  <div class="col"></div>
+</div> -->
+<!-- <div class="row pt-2 pb-2">
+    <div class="col"></div>
+  </div> -->
+  <!-- <div class="row">
+    <div class="col-sm-2">
+      <div [hidden]="verticalScroll" class="pointer d-flex align-items-center align-content-center justify-content-center text-center" style="height: 100%; width: 100%">
+        <nb-icon icon="arrow-ios-back-outline"></nb-icon>
+      </div>
+    </div>
+    <div class="col-sm-8 d-flex justify-content-center text-center">
+      <ng-container *ngIf="chapterListURLs && chapterListURLs.length > 0">
+        <img [hidden]="!verticalScroll" *ngFor="let img of chapterListURLs;" [src]="img" (load)="preloaded()" height="auto" width="80%" />
+      </ng-container>
+      <img [hidden]="loading || verticalScroll" (load)="onLoad()" [src]="chapter" style="height: 100%; max-height: 100%; width: auto">
+      <div *ngIf="loading" class="row justify-content-center">
         <img src="assets/img/Pulse-1s-200px.gif">
       </div>
+    </div>
+    <div class="col-sm-2">
+      <div [hidden]="verticalScroll" (click)="nextPage()" class="pointer d-flex align-items-center align-content-center justify-content-center text-center" style="height: 100%; width: 100%">
+        <nb-icon icon="arrow-ios-forward-outline"></nb-icon>
+      </div>
+    </div>
+  </div> -->
+<div style="max-height: 80vh;">
+  <div class="swiper-container mh-100 h-100" [swiper]="config" [(index)]="pageNumber">
+    <div *ngIf="chapterListURLs && chapterListURLs.length > 0" class="swiper-wrapper mh-100 h-100" >
+      <div *ngFor="let img of chapterListURLsReversed;" class="swiper-slide d-flex justify-content-center text-center mh-100 h-100" >
+        <img class="img-size" [src]="img" (load)="preloaded()" />
+      </div>
+    </div>
+
+    <div class="swiper-scrollbar"></div>
+    <div class="swiper-pagination"></div>
+  
+    <div class="swiper-button-prev"></div>
+    <div class="swiper-button-next"></div>
+
+  <!-- <swiper style="max-height: 100%;" [config]="config" [(index)]="pageNumber">
+    <ng-container *ngIf="chapterListURLs && chapterListURLs.length > 0">
+      <div *ngFor="let img of chapterListURLs;" class="d-flex justify-content-center text-center">
+        <img  [src]="img" (load)="preloaded()" />
+      </div>
+    </ng-container>
+  </swiper> -->
+  </div>
 </div>
-<button (click)="nextPage()" nbButton status="primary">Next</button>
+
+

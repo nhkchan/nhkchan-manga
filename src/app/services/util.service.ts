@@ -1,11 +1,23 @@
 import { Injectable } from '@angular/core';
+import { BehaviorSubject } from 'rxjs';
 
 @Injectable({
   providedIn: 'root'
 })
 export class UtilService {
 
+  private readonly _hideHeader = new BehaviorSubject<boolean>(false);
+  readonly hideHeader$ = this._hideHeader.asObservable();
+
   constructor() { }
+
+  setHideHeader(value: boolean) {
+    this._hideHeader.next(value);
+  }
+
+  getHideHeader(): boolean {
+    return this._hideHeader.value;
+  }
 
   timeDifference(elapsed) {
 

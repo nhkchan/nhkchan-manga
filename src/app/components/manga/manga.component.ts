@@ -29,11 +29,18 @@ export class MangaComponent implements OnInit {
   constructor(private _mangaSvc: MangaService, private _util: UtilService) { }
 
   ngOnInit() {
+    this.loadingImg = true;
     this._manga.subscribe(manga => {
+
+      console.log(manga);
 
       this.manga = this._mangaSvc.getMangaList().find(m => {
         return m.data.id === manga;
       });
+
+      let updatedAt = new Date(this.manga.data.attributes.updatedAt);
+      let now = moment();
+      this.lastUpdated = this._util.timeDifference(now.diff(updatedAt));
 
       this._mangaSvc.setCurrentManga(this.manga);
 
@@ -41,20 +48,16 @@ export class MangaComponent implements OnInit {
         if (coverList) {
           let cover = coverList.find(coverListData => {
             return coverListData.relationships.some(relationship => {
+              console.log(relationship.id);
+              console.log(manga);
+              console.log(relationship.id === manga);
               return relationship.id === manga;
             })
           });
           if (cover) {
             this._mangaSvc.setCurrentCover(cover);
-            this.loadingImg = true;
             this.coverImg = `https://uploads.mangadex.org/covers/${manga}/${cover.data.attributes.fileName}.256.jpg`;
             this.loadImageFailed = false;
-            let updatedAt = new Date(this.manga.data.attributes.updatedAt);
-            let now = moment();
-            this.lastUpdated = this._util.timeDifference(now.diff(updatedAt));
-          } else {
-            this.loadImageFailed = true;
-            this.loadingImg = false;
           }
         }
       });
